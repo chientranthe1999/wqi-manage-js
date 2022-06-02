@@ -1,0 +1,26 @@
+{
+  "router": {
+    "home": "Home",
+    "user": "User",
+    "device": "Device",
+    "article": "Article"
+  },
+
+  "common": {
+    "logout": "Logout"
+  },
+
+  "title": {
+    "part": "Finding your carpart",
+    "part_add": "Adding a new carpart",
+    "car_list": "Car List",
+    "car_add": "Adding a new car",
+    "provider_list": "Provider list",
+    "provider_add": "Add a new provider",
+    "invoice": "Create an invoice"
+  },
+
+  "validation": {
+    "required": "{attribute} is a required item."
+  }
+}
