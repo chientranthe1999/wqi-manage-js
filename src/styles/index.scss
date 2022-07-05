@@ -70,7 +70,7 @@ div:focus {
 .content-main-container {
   padding: 1em;
   background-color: #f8f8f8;
-  height: calc(100vh - 50px);
+  min-height: calc(100vh - 50px);
 }
 
 .no-select {
@@ -105,4 +105,9 @@ ul li {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+svg,
+img {
+  display: inline !important;
 }

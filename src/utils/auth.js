@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'Car-Part-Indent'
+const TokenKey = 'WQI-Indent'
 
 export function getToken() {
   return Cookies.get(TokenKey)

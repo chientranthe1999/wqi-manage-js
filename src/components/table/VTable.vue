@@ -16,11 +16,7 @@
       @selection-change="changeSelection"
     >
       <slot name="columns">
-        <el-table-column
-          v-if="colType === 'selection'"
-          type="selection"
-          width="55"
-        />
+        <el-table-column v-if="colType === 'selection'" type="selection" width="55" />
 
         <el-table-column
           v-for="column in columns"
@@ -31,7 +27,7 @@
           :type="column.type ? column.type : ''"
           v-bind="column"
         >
-          <template slot-scope="{row}">
+          <template slot-scope="{ row }">
             <slot :name="column.prop || column.label" :row="row">{{ row[column.prop] }}</slot>
           </template>
         </el-table-column>
@@ -95,15 +91,12 @@ export default {
     },
     cellClassName: {
       type: Function,
-      default: ({ columnIndex }) => {
-        return columnIndex === 0 ? 'text-center' : ''
-      }
+      default: () => {}
     },
     handleSelectionChange: {
       type: Function,
       default: () => {}
     }
-
   },
   data() {
     return {
@@ -125,7 +118,7 @@ export default {
     },
     toggleSelection(rows) {
       if (rows) {
-        rows.forEach(row => {
+        rows.forEach((row) => {
           this.$refs.vTable.toggleRowSelection(row)
         })
       } else {
@@ -139,7 +132,7 @@ export default {
 }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 @import '@/styles/variables.scss';
 .pagination-container {
   background: #fff;

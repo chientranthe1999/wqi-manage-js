@@ -6,17 +6,6 @@ import i18n from '@/plugins/i18n'
 Vue.use(VueRouter)
 
 const allRoutes = [
-  // {
-  //   path: '/403',
-  //   component: () => import('../views/error/403'),
-  //   hidden: true
-  // },
-  // {
-  //   path: '/404',
-  //   component: () => import('../views/error/404'),
-  //   hidden: true
-  // },
-
   {
     path: '/',
     component: AmdinLayout,
@@ -37,9 +26,15 @@ const allRoutes = [
     children: [
       {
         path: '',
-        name: 'device',
-        component: () => import('@/views/Home'),
+        name: 'DeviceList',
+        component: () => import('@/views/device/List'),
         meta: { title: i18n.t('router.device') }
+      },
+      {
+        path: 'add',
+        name: 'DeviceAdd',
+        component: () => import('@/views/device/DeviceAdd'),
+        meta: { title: i18n.t('router.device_add') }
       }
     ]
   },
@@ -50,9 +45,15 @@ const allRoutes = [
     children: [
       {
         path: '',
-        name: 'user',
-        component: () => import('@/views/Home'),
+        name: 'UserList',
+        component: () => import('@/views/user/UserList'),
         meta: { title: i18n.t('router.user') }
+      },
+      {
+        path: 'add',
+        name: 'UserAdd',
+        component: () => import('@/views/user/UserAdd'),
+        meta: { title: i18n.t('router.user_add') }
       }
     ]
   },
@@ -63,11 +64,44 @@ const allRoutes = [
     children: [
       {
         path: '',
-        name: 'article',
-        component: () => import('@/views/Home'),
+        name: 'Article',
+        component: () => import('@/views/article/Article'),
+        meta: { title: i18n.t('router.article') }
+      },
+      {
+        path: 'add',
+        name: 'ArticleAdd',
+        component: () => import('@/views/article/ArticleAdd'),
+        meta: { title: i18n.t('router.article_add') }
+      },
+      {
+        path: ':id(\\d+)',
+        name: 'ArticleDetail',
+        hidden: true,
+        component: () => import('@/views/article/ArticleDetail'),
         meta: { title: i18n.t('router.article') }
       }
     ]
+  },
+  {
+    path: '/infors',
+    component: AmdinLayout,
+    meta: { title: i18n.t('router.infor'), icon: 'el-icon-place' },
+    children: [
+      {
+        path: '',
+        name: 'WQIInfor',
+        component: () => import('@/views/infor/Infor'),
+        meta: { title: i18n.t('router.infor') }
+      }
+    ]
+  },
+
+  {
+    path: '/login',
+    hidden: true,
+    meta: { title: i18n.t('router.login') },
+    component: () => import('@/views/auth/Login')
   }
 ]
 

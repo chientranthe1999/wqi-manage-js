@@ -8,10 +8,6 @@
   text-align: right;
 }
 
-.flex {
-  display: flex;
-}
-
 .block {
   display: block;
 }
@@ -171,14 +167,6 @@
   background-color: #f1f2f7;
 }
 
-.w-30 {
-  width: 30%;
-}
-
-.w-40 {
-  width: 40%;
-}
-
 .rounded {
   border-radius: 50%;
 }
@@ -210,35 +198,4 @@
 
 .mb-16 {
   margin-bottom: 16px;
-}
-
-.flex-col {
-  flex-direction: column;
-}
-
-.list-item-right {
-  display: flex;
-  align-items: end;
-  flex-direction: column;
-}
-
-.wqi--bad {
-  background-color: $red;
-}
-
-.wqi--warning {
-  background-color: $warning;
-}
-
-.wqi--mid {
-  background-color: #eeff41;
-  color: #3a3a3a;
-}
-
-.wqi--medium {
-  background-color: $success;
-}
-
-.wqi--good {
-  background-color: $blue;
 }

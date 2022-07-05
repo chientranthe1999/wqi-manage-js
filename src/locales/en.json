@@ -2,22 +2,70 @@
   "router": {
     "home": "Home",
     "user": "User",
+    "user_add": "User Add",
     "device": "Device",
-    "article": "Article"
+    "device_add": "Device Add",
+    "article": "Article",
+    "article_add": "Article Add",
+    "infor": "WQI Information",
+    "login": "Login"
   },
 
   "common": {
     "logout": "Logout"
   },
 
+  "label": {
+    "action": "Action",
+    "location": "Location",
+    "type": "Type",
+    "pH": "pH",
+    "wqi": "WQI",
+    "temperature": "Temperature",
+    "turbidity": "Turbidity",
+    "DO": "DO",
+    "NH4": "NH4",
+    "BOD5": "BOD5",
+    "tss": "tss",
+    "coliform": "coliform",
+    "cod": "cod",
+    "PO4": "PO4",
+    "device_name": "Device Name",
+    "longtitude": "Longtitude",
+    "latitude": "Latitude",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "name": "Full name",
+    "phone": "Phone",
+    "role": "Role",
+    "status": "Status",
+    "time": "Time"
+  },
+
   "title": {
-    "part": "Finding your carpart",
-    "part_add": "Adding a new carpart",
-    "car_list": "Car List",
-    "car_add": "Adding a new car",
-    "provider_list": "Provider list",
-    "provider_add": "Add a new provider",
-    "invoice": "Create an invoice"
+    "device_list": "Device List",
+    "device_add": "Add a new device",
+    "user_list": "User List",
+    "user_add": "Add a new user",
+    "wqi": "Finding your WQI Information here",
+    "artile": "Reading article",
+    "artile_add": "Adding a new article",
+    "disable_user_confirm": "Are you sure to disable this user?",
+    "active_user_confirm": "Are you sure to active this user?"
+  },
+
+  "button": {
+    "add": "Add",
+    "save": "Save"
+  },
+
+  "message": {
+    "add_new_user": "Adding new user successfully",
+    "add_new_device": "Adding new device successfully",
+    "disable_user": "Disable user successfully",
+    "enable_user": "Enable user successfully",
+    "error": "Has error, please try again"
   },
 
   "validation": {

@@ -6,7 +6,6 @@
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
         <img src="@/assets/logo.png" class="sidebar-logo" />
-        <h1 class="sidebar-title">{{ title }}</h1>
       </router-link>
     </transition>
   </div>
@@ -19,11 +18,6 @@ export default {
     collapse: {
       type: Boolean,
       required: true
-    }
-  },
-  data() {
-    return {
-      title: this.$t('common.title')
     }
   }
 }

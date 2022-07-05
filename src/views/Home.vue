@@ -2,8 +2,8 @@
   <div class="content-main-container">
     <!-- device list -->
     <el-row :gutter="24">
-      <el-col :xs="24" :sm="24" :md="12">
-        <section class="card-items">
+      <el-col :xs="24" :sm="24" :md="12" class="mb-[1rem]">
+        <section class="card-items h-[300px]">
           <!-- header -->
           <div class="flex align-items-center card-header" @click="$router.push({ name: 'device' })">
             <p class="title-text">Device List</p>
@@ -37,65 +37,7 @@
       </el-col>
 
       <el-col :xs="24" :sm="24" :md="12">
-        <div class="bg--white pd-1-em box-shadow-bordered">
-          <div class="header flex">
-            <div class="pb-1-em"><v-icon icon-class="location" /><span>Location</span></div>
-            <div class="ml-auto">Time</div>
-          </div>
-          <div class="daily-content flex">
-            <!-- left content -->
-            <div class="w-30">
-              <ul>
-                <li class="wqi-infor text-center">
-                  <v-icon icon-class="temperature" />
-                  <span> temperature</span>
-                  <div>21C</div>
-                </li>
-
-                <li class="wqi-infor text-center">
-                  <v-icon icon-class="turbidity" />
-                  <span> turbidity</span>
-                  <div>21C</div>
-                </li>
-
-                <li class="wqi-infor text-center">
-                  <v-icon icon-class="chemistry" />
-                  <span> BOD5</span>
-                  <div>21C</div>
-                </li>
-              </ul>
-            </div>
-
-            <!-- wqi -->
-            <div class="w-40 flex align-items-center">
-              <div class="rounded wqi-number mb-16 wqi--mid">
-                <span> WQI</span>
-                <span>40</span>
-              </div>
-            </div>
-
-            <!-- right content -->
-            <div class="w-30 text-left">
-              <ul class="list-item-right">
-                <li class="wqi-infor wqi-infor-right text-center">
-                  <v-icon icon-class="ph" />
-                  <span> Ph</span>
-                  <div>21</div>
-                </li>
-                <li class="wqi-infor wqi-infor-right text-center">
-                  <v-icon icon-class="chemistry" />
-                  <span> DO</span>
-                  <div>21</div>
-                </li>
-                <li class="wqi-infor wqi-infor-right text-center">
-                  <v-icon icon-class="chemistry" />
-                  <span> NH4</span>
-                  <div>21</div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        <wqi-item />
         <!-- <section class="card-items"> -->
         <!-- header -->
         <!-- <div class="flex align-items-center card-header">
@@ -121,10 +63,23 @@
       </el-col>
     </el-row>
 
+    <el-row />
+
     <template>
-      <div class="bg--white">
-        <!-- <apexchart width="700" type="bar" :options="options" :series="series" /> -->
-      </div>
+      <el-row :gutter="24">
+        <el-col :xs="24" :sm="24" :md="12" :lg="12">
+          <div class="bg--white box-shadow-bordered">
+            <p class="font-bold p-[1rem]">WQI chart</p>
+            <apexchart
+              type="bar"
+              :height="450"
+              :options="chartOptions"
+              :series="series"
+              class="w-full px-[1rem] h-[400px]"
+            />
+          </div>
+        </el-col>
+      </el-row>
     </template>
   </div>
 </template>
@@ -132,38 +87,52 @@
 export default {
   data() {
     return {
-      series: [40],
+      // series: [40],
+      // chartOptions: {
+      //   chart: {
+      //     height: 300,
+      //     type: 'radialBar'
+      //   },
+      //   plotOptions: {
+      //     radialBar: {
+      //       hollow: {
+      //         size: '70%'
+      //       }
+      //     },
+      //     dataLabels: {
+      //       showOn: 'always',
+      //       name: {
+      //         offsetY: -10,
+      //         show: true,
+      //         color: '#888',
+      //         fontSize: '18px'
+      //       },
+      //       value: {
+      //         color: '#111',
+      //         fontSize: '30px',
+      //         show: true
+      //       }
+      //     }
+      //   },
+      //   stroke: {
+      //     lineCap: 'round'
+      //   },
+      //   labels: ['WQI']
+      // }
       chartOptions: {
         chart: {
-          height: 300,
-          type: 'radialBar'
+          id: 'WQI chart'
         },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              size: '70%'
-            }
-          },
-          dataLabels: {
-            showOn: 'always',
-            name: {
-              offsetY: -10,
-              show: true,
-              color: '#888',
-              fontSize: '18px'
-            },
-            value: {
-              color: '#111',
-              fontSize: '30px',
-              show: true
-            }
-          }
-        },
-        stroke: {
-          lineCap: 'round'
-        },
-        labels: ['WQI']
-      }
+        xaxis: {
+          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+        }
+      },
+      series: [
+        {
+          name: 'WQI',
+          data: [30, 40, 45, 50, 49, 60, 70, 91]
+        }
+      ]
     }
   }
 }
@@ -177,7 +146,7 @@ export default {
   background-color: white;
 
   .card-header {
-    padding: 0 1rem;
+    padding: 1rem;
     cursor: pointer;
     border-bottom: 1px solid #e8e8e8;
     transition: all 0.2s ease-in;
@@ -223,13 +192,5 @@ export default {
     font-weight: 700;
     color: white;
   }
-}
-
-.location {
-  font-size: 0.8em;
-}
-
-.max-width-85 {
-  max-width: 85%;
 }
 </style>

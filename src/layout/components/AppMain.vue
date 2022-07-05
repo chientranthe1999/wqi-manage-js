@@ -23,7 +23,6 @@ export default {
   min-height: 100vh;
   width: 100%;
   position: relative;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

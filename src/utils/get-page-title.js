@@ -1,6 +1,6 @@
 import defaultSettings from '@/settings'
 
-const title = defaultSettings.title || 'Car Part'
+const title = defaultSettings.title || 'WQI manage'
 
 export default function getPageTitle(pageTitle) {
   if (pageTitle) {
