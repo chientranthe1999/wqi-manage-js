@@ -21,6 +21,8 @@
   </div>
 </template>
 <script>
+import { getInfors } from '@/apis/infor'
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -28,6 +30,7 @@ export default {
       results: [],
       page: 1,
       limit: 20,
+      total: 0,
       cols: [
         {
           prop: 'device',
@@ -45,7 +48,7 @@ export default {
           minWidth: '10'
         },
         {
-          prop: 'pH',
+          prop: 'ph',
           label: this.$t('label.pH'),
           minWidth: '10'
         },
@@ -85,6 +88,32 @@ export default {
           minWidth: '10'
         }
       ]
+    }
+  },
+
+  async created() {
+    await this.getInfor()
+  },
+
+  methods: {
+    async getInfor() {
+      const res = await getInfors({ limit: this.limit, page: this.page })
+      this.results = res.data.data.map((item) => {
+        return {
+          device: item.devices.name,
+          temperature: Number(item.temperature).toFixed(2),
+          ph: Number(item.ph).toFixed(2),
+          turbidity: Number(item.turbidity).toFixed(2),
+          do: Number(item.do).toFixed(2),
+          nh4: Number(item.nh4).toFixed(2),
+          bod5: Number(item.bod).toFixed(2),
+          tss: Number(item.tss).toFixed(2),
+          coliform: Number(item.coliform).toFixed(2),
+          wqi: Number(item.wqi).toFixed(2),
+          time: moment(item.created_at).format('HH:mm YYYY/MM/DD')
+        }
+      })
+      console.log(res)
     }
   }
 }

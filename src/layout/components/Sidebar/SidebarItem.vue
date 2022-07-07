@@ -85,7 +85,6 @@ export default {
     },
 
     allowRole() {
-      console.log(this.$store.getters['role'])
       return this.item.meta?.roles ? this.item.meta.roles.includes(this.$store.getters['role']) : true
     }
   }

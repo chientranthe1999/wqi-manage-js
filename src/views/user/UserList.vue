@@ -1,11 +1,6 @@
 <template lang="">
   <div v-loading="loading">
-    <v-header
-      :has-button="true"
-      :button-text="$t('button.add')"
-      :title-text="$t('title.user_list')"
-      @buttonClick="$router.push({ name: 'UserAdd' })"
-    />
+    <v-header :has-button="true" :button-text="$t('button.add')" :title-text="$t('title.user_list')" @buttonClick="$router.push({ name: 'UserAdd' })" />
 
     <div class="content-main-container">
       <div class="bg-white">
@@ -107,7 +102,7 @@ export default {
     async activeUser(id) {
       try {
         await activeUser(id)
-        this.$vmess.success(this.$t('message.disable_user'))
+        this.$vmess.success(this.$t('message.enable_user'))
         await this.getUsers()
       } catch (e) {
         this.$vmess.error(this.$t('message.error'))

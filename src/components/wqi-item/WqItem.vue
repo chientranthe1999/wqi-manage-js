@@ -3,9 +3,9 @@
     <div class="flex border-b mb-[1em]">
       <div class="pb-1-em max-w-[60%] location">
         <v-icon icon-class="location" />
-        <span class="location">Location jsdfhnksdjfh skjdhfskjdfhsjkdfhsdkfjh kljlkjklj kjlkjl kjlkjlkj </span>
+        <span class="location">Location: {{ wqi.location }}</span>
       </div>
-      <div class="ml-auto">Time</div>
+      <div class="ml-auto">{{ wqi.time }}</div>
     </div>
     <div class="daily-content flex">
       <!-- left content -->
@@ -14,19 +14,19 @@
           <li class="wqi-infor text-center">
             <v-icon icon-class="temperature" />
             <span> temperature</span>
-            <div>21C</div>
+            <div>{{ wqi.temperature }}C</div>
           </li>
 
           <li class="wqi-infor text-center">
             <v-icon icon-class="turbidity" />
             <span> turbidity</span>
-            <div>21C</div>
+            <div>{{ wqi.turbidity }}</div>
           </li>
 
           <li class="wqi-infor text-center">
             <v-icon icon-class="chemistry" />
             <span> BOD5</span>
-            <div>21C</div>
+            <div>{{ wqi.bod }}</div>
           </li>
         </ul>
       </div>
@@ -35,7 +35,7 @@
       <div class="w-[40%] flex align-items-center">
         <div class="rounded-[50%] wqi-number" :class="wqiBg(40)">
           <span> WQI</span>
-          <span>40</span>
+          <span>{{ wqi.wqi }}</span>
         </div>
       </div>
 
@@ -45,17 +45,17 @@
           <li class="wqi-infor wqi-infor-right text-center">
             <v-icon icon-class="ph" />
             <span> Ph</span>
-            <div>21</div>
+            <div>{{ wqi.pH }}</div>
           </li>
           <li class="wqi-infor wqi-infor-right text-center">
             <v-icon icon-class="chemistry" />
             <span> DO</span>
-            <div>21</div>
+            <div>{{ wqi.dO }}</div>
           </li>
           <li class="wqi-infor wqi-infor-right text-center">
             <v-icon icon-class="chemistry" />
             <span> NH4</span>
-            <div>21</div>
+            <div>{{ wqi.nh4 }}</div>
           </li>
         </ul>
       </div>

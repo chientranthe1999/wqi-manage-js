@@ -1,34 +1,20 @@
 <template>
   <div class="content-main-container">
     <!-- device list -->
-    <el-row :gutter="24">
+    <el-row :gutter="24" class="mb-4">
       <el-col :xs="24" :sm="24" :md="12" class="mb-[1rem]">
         <section class="card-items h-[300px]">
           <!-- header -->
-          <div class="flex align-items-center card-header" @click="$router.push({ name: 'device' })">
+          <div class="flex align-items-center card-header" @click="$router.push({ name: 'DeviceList' })">
             <p class="title-text">Device List</p>
             <i class="el-icon-arrow-right ml-auto" />
           </div>
           <!-- content -->
           <ul class="card-content">
-            <li class="card-content-items flex align-items-center">
+            <li v-for="device in devices" :key="device.id" class="card-content-items flex align-items-center">
               <div class="max-w-85">
-                <div>ChienTT</div>
-                <div class="location"><i class="el-icon-map-location" />: 1213</div>
-              </div>
-              <i class="el-icon-s-promotion ml-auto f-2" />
-            </li>
-            <li class="card-content-items flex align-items-center">
-              <div class="max-w-85">
-                <div>ChienTT</div>
-                <div class="location"><i class="el-icon-map-location" />: 1213</div>
-              </div>
-              <i class="el-icon-s-promotion ml-auto f-2" />
-            </li>
-            <li class="card-content-items flex align-items-center">
-              <div class="max-w-85">
-                <div>ChienTT</div>
-                <div class="location"><i class="el-icon-map-location" />: 1213</div>
+                <div>{{ device.name }}</div>
+                <div class="location"><i class="el-icon-map-location" />: {{ device.location }}</div>
               </div>
               <i class="el-icon-s-promotion ml-auto f-2" />
             </li>
@@ -37,46 +23,16 @@
       </el-col>
 
       <el-col :xs="24" :sm="24" :md="12">
-        <wqi-item />
-        <!-- <section class="card-items"> -->
-        <!-- header -->
-        <!-- <div class="flex align-items-center card-header">
-            <p class="title-text">User list</p>
-            <i class="el-icon-arrow-right ml-auto" />
-          </div> -->
-        <!-- content -->
-        <!-- <ul class="card-content">
-            <li class="card-content-items flex align-items-center">
-              <span>ChienTT</span>
-              <i class="el-icon-s-promotion ml-auto f-2" />
-            </li>
-            <li class="card-content-items flex align-items-center">
-              <span>ChienTT</span>
-              <i class="el-icon-s-promotion ml-auto f-2" />
-            </li>
-            <li class="card-content-items flex align-items-center">
-              <span>ChienTT</span>
-              <i class="el-icon-s-promotion ml-auto f-2" />
-            </li>
-          </ul> -->
-        <!-- </section> -->
+        <wqi-item :wqi="wqi" />
       </el-col>
     </el-row>
 
-    <el-row />
-
     <template>
       <el-row :gutter="24">
-        <el-col :xs="24" :sm="24" :md="12" :lg="12">
+        <el-col :xs="24" :sm="24" :md="24" :lg="24">
           <div class="bg--white box-shadow-bordered">
             <p class="font-bold p-[1rem]">WQI chart</p>
-            <apexchart
-              type="bar"
-              :height="450"
-              :options="chartOptions"
-              :series="series"
-              class="w-full px-[1rem] h-[400px]"
-            />
+            <apexchart type="bar" :height="450" :options="chartOptions" :series="series" class="w-full px-[1rem] h-[400px]" />
           </div>
         </el-col>
       </el-row>
@@ -84,55 +40,70 @@
   </div>
 </template>
 <script>
+import { dashboard } from '@/apis/infor'
+import moment from 'moment'
 export default {
   data() {
     return {
-      // series: [40],
-      // chartOptions: {
-      //   chart: {
-      //     height: 300,
-      //     type: 'radialBar'
-      //   },
-      //   plotOptions: {
-      //     radialBar: {
-      //       hollow: {
-      //         size: '70%'
-      //       }
-      //     },
-      //     dataLabels: {
-      //       showOn: 'always',
-      //       name: {
-      //         offsetY: -10,
-      //         show: true,
-      //         color: '#888',
-      //         fontSize: '18px'
-      //       },
-      //       value: {
-      //         color: '#111',
-      //         fontSize: '30px',
-      //         show: true
-      //       }
-      //     }
-      //   },
-      //   stroke: {
-      //     lineCap: 'round'
-      //   },
-      //   labels: ['WQI']
-      // }
+      devices: [],
+      wqi: {},
       chartOptions: {
         chart: {
           id: 'WQI chart'
         },
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+          categories: []
         }
       },
       series: [
         {
           name: 'WQI',
-          data: [30, 40, 45, 50, 49, 60, 70, 91]
+          data: []
         }
       ]
+    }
+  },
+  async created() {
+    try {
+      await this.getInfor()
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+  methods: {
+    async getInfor() {
+      const res = await dashboard()
+      const xaxis = []
+      this.series[0].data = res.data.items?.infors?.map((item) => {
+        xaxis.push(moment(item.created_at).format('HH:mm MM/DD'))
+        return Number(item.wqi).toFixed(1)
+      })
+
+      this.chartOptions = {
+        ...this.chartOptions,
+        xaxis: {
+          categories: xaxis
+        }
+      }
+
+      const { devices, nh4, bod, turbidity, temperature, wqi, created_at } = res.data.items.newest
+      const dO = res.data.items.newest.do
+      const pH = res.data.items.newest.ph
+
+      this.wqi = {
+        location: devices.location,
+        time: moment(created_at).format('HH:mm MM/DD'),
+        nh4: Number(nh4).toFixed(1),
+        bod: Number(bod).toFixed(1),
+        turbidity: Number(turbidity).toFixed(1),
+        temperature: Number(temperature).toFixed(1),
+        wqi: Number(wqi).toFixed(1),
+        dO: Number(dO).toFixed(1),
+        pH: Number(pH).toFixed(1)
+      }
+
+      this.devices = res.data.items.devices
     }
   }
 }
