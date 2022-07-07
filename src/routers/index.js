@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AmdinLayout from '@/layout/AdminLayout'
 import i18n from '@/plugins/i18n'
+import { ROLES } from '@/utils/constants'
 
 Vue.use(VueRouter)
 
@@ -41,7 +42,7 @@ const allRoutes = [
   {
     path: '/users',
     component: AmdinLayout,
-    meta: { title: i18n.t('router.user'), icon: 'el-icon-s-custom' },
+    meta: { title: i18n.t('router.user'), icon: 'el-icon-s-custom', roles: [ROLES.SUPER_ADMIN] },
     children: [
       {
         path: '',
