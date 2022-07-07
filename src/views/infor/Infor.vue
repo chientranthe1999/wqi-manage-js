@@ -4,7 +4,7 @@
     <div class="content-main-container">
       <main class="box-shadow-bordered bg-white rounded-[5px] p-[1em]">
         <!-- header -->
-        <el-row class="mb-[1em]">
+        <!-- <el-row class="mb-[1em]">
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
             <el-form label-position="left" label-width="120px">
               <el-form-item :label="$t('router.device')">
@@ -12,7 +12,7 @@
               </el-form-item>
             </el-form>
           </el-col>
-        </el-row>
+        </el-row> -->
 
         <!-- result table -->
         <v-table :table-data="results" :columns="cols" :limit="limit" :page="page" :total="total" />
