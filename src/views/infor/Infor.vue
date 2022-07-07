@@ -1,5 +1,5 @@
 <template lang="">
-  <div>
+  <div v-loading="loading">
     <v-header :has-button="false" :button-text="$t('button.add')" :title-text="$t('title.wqi')" />
     <div class="content-main-container">
       <main class="box-shadow-bordered bg-white rounded-[5px] p-[1em]">
@@ -15,7 +15,7 @@
         </el-row> -->
 
         <!-- result table -->
-        <v-table :table-data="results" :columns="cols" :limit="limit" :page="page" :total="total" />
+        <v-table :table-data="results" :columns="cols" :limit="limit" :page="page" :total="total" @onChangePage="onChangePage"/>
       </main>
     </div>
   </div>
@@ -97,6 +97,7 @@ export default {
 
   methods: {
     async getInfor() {
+      this.loading = true
       const res = await getInfors({ limit: this.limit, page: this.page })
       this.results = res.data.data.map((item) => {
         return {
@@ -113,7 +114,13 @@ export default {
           time: moment(item.created_at).format('HH:mm YYYY/MM/DD')
         }
       })
-      console.log(res)
+      this.total = res.data.total
+      this.loading = false
+    },
+
+    async onChangePage(page) {
+      this.page = page
+      await this.getInfor()
     }
   }
 }
