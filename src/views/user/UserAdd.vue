@@ -24,6 +24,14 @@
             </el-col>
 
             <el-col :sm="24" :md="24" :lg="24">
+              <el-form-item :label="$t('label.device')" prop="device_id">
+                <el-select v-model="form.device_id" class="w-full">
+                  <el-option v-for="(device, index) in devices" :key="index" :value="device.id" :label="`${device.name} - ${device.location}`" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+
+            <el-col :sm="24" :md="24" :lg="24">
               <el-row :gutter="24">
                 <el-col :sm="12" :xs="12" :md="12" :lg="12">
                   <el-form-item :label="$t('label.password')" prop="password">
@@ -51,15 +59,19 @@
 </template>
 <script>
 import { register } from '@/apis/user'
+import { getDevices } from '@/apis/device'
+
 export default {
   data() {
     return {
       loading: false,
+      devices: [],
       form: {
         name: '',
         phone: '',
         email: '',
         password: '',
+        device_id: '',
         password_confirm: ''
       },
 
@@ -72,6 +84,11 @@ export default {
         phone: {
           required: true,
           message: this.$t('validation.required', { attribute: this.$t('label.phone') }),
+          trigger: 'blur'
+        },
+        device_id: {
+          required: true,
+          message: this.$t('validation.required', { attribute: this.$t('label.device') }),
           trigger: 'blur'
         },
         email: {
@@ -92,14 +109,31 @@ export default {
       }
     }
   },
+
+  async created() {
+    await this.getDevices()
+  },
   methods: {
     async createUser() {
       try {
         this.loading = true
         await this.$refs.form.validate()
-        const res = await register(this.form)
+        await register(this.form)
         this.$vmess.success(this.$t('message.add_new_user'))
         this.$router.push({ name: 'UserList' })
+      } catch (e) {
+        console.log(e)
+      } finally {
+        this.loading = false
+      }
+    },
+
+    async getDevices() {
+      try {
+        this.loading = true
+        const res = await getDevices()
+
+        this.devices = res.data.items
       } catch (e) {
         console.log(e)
       } finally {

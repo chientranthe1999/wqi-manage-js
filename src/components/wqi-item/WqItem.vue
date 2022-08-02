@@ -33,7 +33,7 @@
 
       <!-- wqi -->
       <div class="w-[40%] flex align-items-center">
-        <div class="rounded-[50%] wqi-number" :class="wqiBg(40)">
+        <div class="rounded-[50%] wqi-number" :class="wqiBg(wqi.wqi)">
           <span> WQI</span>
           <span>{{ wqi.wqi }}</span>
         </div>
@@ -63,6 +63,7 @@
   </div>
 </template>
 <script>
+import { wqiBg } from '@/utils/common'
 export default {
   props: {
     wqi: {
@@ -71,22 +72,8 @@ export default {
       default: () => {}
     }
   },
-  computed: {
-    wqiBg() {
-      return (wqi) => {
-        if (wqi >= 0 && wqi <= 25) {
-          return 'wqi--bad'
-        } else if (wqi > 25 && wqi <= 50) {
-          return 'wqi--warning'
-        } else if (wqi > 50 && wqi <= 75) {
-          return 'wqi--mid'
-        } else if (wqi > 75 && wqi <= 90) {
-          return 'wqi--medium'
-        } else if (wqi > 90 && wqi <= 100) {
-          return 'wqi--good'
-        }
-      }
-    }
+  methods: {
+    wqiBg
   }
 }
 </script>
@@ -107,26 +94,5 @@ export default {
   display: flex;
   align-items: flex-end;
   flex-direction: column;
-}
-
-.wqi--bad {
-  background-color: $red;
-}
-
-.wqi--warning {
-  background-color: $warning;
-}
-
-.wqi--mid {
-  background-color: #eeff41;
-  color: #3a3a3a;
-}
-
-.wqi--medium {
-  background-color: $success;
-}
-
-.wqi--good {
-  background-color: $blue;
 }
 </style>

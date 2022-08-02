@@ -199,3 +199,24 @@
 .mb-16 {
   margin-bottom: 16px;
 }
+
+.wqi--bad {
+  background-color: $red;
+}
+
+.wqi--warning {
+  background-color: $warning;
+}
+
+.wqi--mid {
+  background-color: #eeff41;
+  color: #3a3a3a;
+}
+
+.wqi--medium {
+  background-color: $success;
+}
+
+.wqi--good {
+  background-color: $blue;
+}

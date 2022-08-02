@@ -40,7 +40,8 @@
     "phone": "Phone",
     "role": "Role",
     "status": "Status",
-    "time": "Time"
+    "time": "Time",
+    "device": "Device"
   },
 
   "title": {

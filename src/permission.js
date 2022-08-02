@@ -7,7 +7,7 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false })
 
-const whiteList = ['/login', '/404', '/403']
+const whiteList = ['/login', '/404', '/403', '/home', '/']
 
 const notAllowedList = ['/login']
 
