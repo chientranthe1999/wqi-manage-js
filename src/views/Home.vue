@@ -132,10 +132,16 @@ export default {
           text: 'Tệ'
         },
         {
-          val: '0 - 25',
+          val: '10 - 25',
           status: 'Nước ô nhiễm nặng, cần các biện pháp xử lý trong tương lai',
           color: 'wqi--bad',
           text: 'Ô nhiễm'
+        },
+        {
+          val: '< 10',
+          status: 'Nước nhiễm độc, cần có biện pháp khắc phục, xử lý',
+          color: 'wqi--danger',
+          text: 'Ô nhiễm nặng'
         }
       ]
     }
