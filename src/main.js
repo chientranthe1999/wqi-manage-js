@@ -19,6 +19,8 @@ import '@/permission'
 
 import '@/components' // global components
 
+import '@/plugins/bus'
+
 import '@/icons' // icon
 
 import request from '@/utils/request'

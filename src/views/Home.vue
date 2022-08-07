@@ -1,35 +1,45 @@
 <template>
-  <div class="content-main-container">
-    <!-- device list -->
-    <h3 class="text-[2em] mb-3"><v-icon icon-class="location" /> Chất lượng nước tại {{ wqi.location }}</h3>
-    <p class="mb-6"><span class="text-xs font-bold">Cập nhật mới nhất lúc</span> {{ wqi.time }}</p>
-    <el-row :gutter="24" class="mb-4">
-      <el-col :xs="24" :sm="24" :md="12" class="mb-[1rem]">
-        <section class="card-items h-[300px]">
-          <!-- header -->
+  <div v-loading="loading">
+    <div v-if="Object.keys(wqi).length" class="content-main-container">
+      <!-- device list -->
+      <h3 class="text-[2em] mb-3"><v-icon icon-class="location" /> Chất lượng nước tại {{ wqi.location }}</h3>
+      <p class="mb-6"><span class="text-xs font-bold">Cập nhật mới nhất lúc</span> {{ wqi.time }}</p>
+      <el-row :gutter="24" class="mb-4">
+        <el-col :xs="24" :sm="24" :md="12" class="mb-[1rem]">
+          <wqi-item :wqi="wqi" />
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="12" class="mb-[1rem]">
+          <!-- <section class="card-items h-[300px]">
+
           <div class="flex align-items-center card-header">
             <p class="title-text">Chất lượng nước theo khu vực</p>
-            <!-- <i class="el-icon-arrow-right ml-auto" /> -->
+
           </div>
-          <!-- content -->
+
           <ul class="card-content">
             <li v-for="device in devices" :key="device.id" class="card-content-items flex align-items-center">
               <div class="max-w-85">
                 <div>{{ device.name }}</div>
                 <div class="location"><i class="el-icon-map-location" />: {{ device.location }}</div>
               </div>
-              <p class="ml-auto f-2 wqi--number" :class="wqiBg(45.5)">45.4</p>
+              <p class="ml-auto f-2 wqi--number" :class="wqiCaculateStatus(45.5)">45.4</p>
             </li>
           </ul>
-        </section>
-      </el-col>
+        </section> -->
+          <iframe
+            v-if="device"
+            class="h-[300px] w-full"
+            :src="'https://www.google.com/maps?output=embed&t=m&hl=en&z=18&ll=' + device.lat + ',' + device.lon + '&q=' + device.lat + ',' + device.lon"
+            allowfullscreen
+            loading="lazy"
+          />
 
-      <el-col :xs="24" :sm="24" :md="12">
-        <wqi-item :wqi="wqi" />
-      </el-col>
-    </el-row>
+          <div class="text-right mt-[1em]">
+            <el-button type="primary" @click="goToMap(device.lat, device.lon)">Xem trên bản đồ <i class="el-icon-top-right" /></el-button>
+          </div>
+        </el-col>
+      </el-row>
 
-    <template>
       <el-row :gutter="24">
         <el-col :xs="24" :sm="24" :md="24" :lg="24">
           <div class="bg--white box-shadow-bordered p-2">
@@ -40,17 +50,18 @@
           </div>
         </el-col>
       </el-row>
-    </template>
+    </div>
+    <div v-else><el-empty /></div>
   </div>
 </template>
 <script>
 import { dashboard } from '@/apis/infor'
-import { wqiBg } from '@/utils/common'
+import { wqiCaculateStatus } from '@/utils/common'
+import { mapGetters } from 'vuex'
 import moment from 'moment'
 export default {
   data() {
     return {
-      devices: [],
       wqi: {},
       chartOptions: {
         chart: {
@@ -65,51 +76,88 @@ export default {
           name: 'WQI',
           data: []
         }
-      ]
+      ],
+
+      device: null,
+      loading: false
     }
   },
+
+  computed: {
+    ...mapGetters(['deviceId'])
+  },
+
+  watch: {
+    deviceId: {
+      async handler(val) {
+        await this.getInfor(val)
+      },
+      immediate: true
+    }
+  },
+
   async created() {
     try {
+      this.$bus.$on('getInfor', this.getInfor)
       await this.getInfor()
     } catch (e) {
       console.log(e)
     }
   },
 
+  destroyed() {
+    // Stop listening the event getInfor with handler
+    this.$bus.$off('getInfor', this.getInfor)
+  },
+
   methods: {
-    wqiBg,
-    async getInfor() {
-      const res = await dashboard()
-      const xaxis = []
-      this.series[0].data = res.data.items?.infors?.map((item) => {
-        xaxis.push(moment(item.created_at).format('HH:mm MM/DD'))
-        return Number(item.wqi).toFixed(1)
-      })
+    wqiCaculateStatus,
+    async getInfor(deviceId) {
+      try {
+        if (deviceId) {
+          this.loading = true
+          const res = await dashboard({ device_id: deviceId })
+          this.wqi = {}
+          const xaxis = []
+          this.series[0].data = res.data.items?.infors?.map((item) => {
+            xaxis.push(moment(item.created_at).format('HH:mm MM/DD'))
+            return Number(item.wqi).toFixed(1)
+          })
 
-      this.chartOptions = {
-        ...this.chartOptions,
-        xaxis: {
-          categories: xaxis
+          this.chartOptions = {
+            ...this.chartOptions,
+            xaxis: {
+              categories: xaxis
+            }
+          }
+
+          const { devices, nh4, bod, turbidity, temperature, wqi, created_at } = res.data.items.newest
+          const dO = res.data.items.newest.do
+          const pH = res.data.items.newest.ph
+
+          this.wqi = {
+            location: devices.location,
+            time: moment(created_at).format('HH:mm MM/DD'),
+            nh4: this._formatNumber(nh4),
+            bod: this._formatNumber(bod),
+            turbidity: this._formatNumber(turbidity),
+            temperature: this._formatNumber(temperature),
+            wqi: this._formatNumber(wqi),
+            dO: this._formatNumber(dO),
+            pH: this._formatNumber(pH)
+          }
+
+          this.device = devices
         }
+      } catch (e) {
+        this.wqi = {}
+      } finally {
+        this.loading = false
       }
+    },
 
-      const { devices, nh4, bod, turbidity, temperature, wqi, created_at } = res.data.items.newest
-      const dO = res.data.items.newest.do
-      const pH = res.data.items.newest.ph
-
-      this.wqi = {
-        location: devices.location,
-        time: moment(created_at).format('HH:mm MM/DD'),
-        nh4: this._formatNumber(nh4),
-        bod: this._formatNumber(bod),
-        turbidity: this._formatNumber(turbidity),
-        temperature: this._formatNumber(temperature),
-        wqi: this._formatNumber(wqi),
-        dO: this._formatNumber(dO),
-        pH: this._formatNumber(pH)
-      }
-
-      this.devices = res.data.items.devices
+    goToMap(lat, lon) {
+      window.open('http://maps.google.co.jp/maps?q=' + lat + '+' + lon + '&t=m&z=14', '_blank')
     },
 
     _formatNumber(num) {

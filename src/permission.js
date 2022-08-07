@@ -7,7 +7,7 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false })
 
-const whiteList = ['/login', '/404', '/403', '/home', '/']
+const whiteList = ['/login', '/404', '/403', '/home', '/', 'Article', 'ArticleDetail']
 
 const notAllowedList = ['/login']
 
@@ -44,7 +44,7 @@ router.beforeEach(async (to, from, next) => {
     }
   } else {
     /* has no token*/
-    if (whiteList.indexOf(to.path) !== -1) {
+    if (whiteList.indexOf(to.path) !== -1 || whiteList.indexOf(to.name) !== -1) {
       // in the free login whitelist, go directly
       next()
     } else {

@@ -23,7 +23,7 @@ const allRoutes = [
   {
     path: '/devices',
     component: AmdinLayout,
-    meta: { title: i18n.t('router.device'), icon: 'el-icon-cpu' },
+    meta: { title: i18n.t('router.device'), icon: 'el-icon-cpu', roles: [ROLES.SUPER_ADMIN, ROLES.ADMIN] },
     children: [
       {
         path: '',
@@ -73,7 +73,7 @@ const allRoutes = [
         path: 'add',
         name: 'ArticleAdd',
         component: () => import('@/views/article/ArticleAdd'),
-        meta: { title: i18n.t('router.article_add') }
+        meta: { title: i18n.t('router.article_add'), roles: [ROLES.SUPER_ADMIN, ROLES.ADMIN] }
       },
       {
         path: ':id(\\d+)',
@@ -87,7 +87,7 @@ const allRoutes = [
   {
     path: '/infors',
     component: AmdinLayout,
-    meta: { title: i18n.t('router.infor'), icon: 'el-icon-place' },
+    meta: { title: i18n.t('router.infor'), icon: 'el-icon-place', roles: [ROLES.SUPER_ADMIN, ROLES.ADMIN] },
     children: [
       {
         path: '',

@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
-export function dashboard() {
-  return request.get('/dashboard')
+export function dashboard(params) {
+  return request.get('/dashboard', { params })
 }
 
 export function getInfors(params) {

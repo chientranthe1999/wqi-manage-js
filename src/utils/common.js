@@ -12,16 +12,36 @@ export function replaceUrl(query = {}) {
   history.replaceState({}, null, router.currentRoute.path + (params.length ? '?' + params.join('&') : ''))
 }
 
-export function wqiBg(wqi) {
-  if (wqi >= 0 && wqi <= 25) {
-    return 'wqi--bad'
+export function wqiCaculateStatus(wqi) {
+  if (wqi < 10) {
+    return {
+      bgClass: 'wqi--danger',
+      text: 'Ô nhiễm'
+    }
+  } else if (wqi >= 0 && wqi <= 25) {
+    return {
+      bgClass: 'wqi--bad',
+      text: 'Ô nhiễm'
+    }
   } else if (wqi > 25 && wqi <= 50) {
-    return 'wqi--warning'
+    return {
+      bgClass: 'wqi--warning',
+      text: 'Tệ'
+    }
   } else if (wqi > 50 && wqi <= 75) {
-    return 'wqi--mid'
+    return {
+      bgClass: 'wqi--mid',
+      text: 'Kém'
+    }
   } else if (wqi > 75 && wqi <= 90) {
-    return 'wqi--medium'
+    return {
+      bgClass: 'wqi--medium',
+      text: 'Trung bình'
+    }
   } else if (wqi > 90 && wqi <= 100) {
-    return 'wqi--good'
+    return {
+      bgClass: 'wqi--good',
+      text: 'Tốt'
+    }
   }
 }

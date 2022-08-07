@@ -1,14 +1,14 @@
 {
   "router": {
     "home": "Home",
-    "user": "User",
-    "user_add": "User Add",
-    "device": "Device",
-    "device_add": "Device Add",
-    "article": "Article",
-    "article_add": "Article Add",
-    "infor": "WQI Information",
-    "login": "Login"
+    "user": "Quản lý người dùng",
+    "user_add": "Thêm người dùng",
+    "device": "Thiết bị",
+    "device_add": "Thêm mới thiết bị",
+    "article": "Tin tức",
+    "article_add": "Thêm mới tin tức",
+    "infor": "Thông tin WQI",
+    "login": "Đăng nhập"
   },
 
   "common": {
@@ -17,7 +17,7 @@
 
   "label": {
     "action": "Action",
-    "location": "Location",
+    "location": "Địa chỉ",
     "type": "Type",
     "pH": "pH",
     "wqi": "WQI",
@@ -36,36 +36,36 @@
     "email": "Email",
     "password": "Password",
     "confirm_password": "Confirm Password",
-    "name": "Full name",
-    "phone": "Phone",
+    "name": "Họ và tên",
+    "phone": "Số điện thoại",
     "role": "Role",
-    "status": "Status",
-    "time": "Time",
-    "device": "Device"
+    "status": "Trạng thái",
+    "time": "Thời gian",
+    "device": "Thiết bị"
   },
 
   "title": {
-    "device_list": "Device List",
-    "device_add": "Add a new device",
-    "user_list": "User List",
-    "user_add": "Add a new user",
-    "wqi": "Finding your WQI Information here",
-    "artile": "Reading article",
-    "artile_add": "Adding a new article",
-    "disable_user_confirm": "Are you sure to disable this user?",
-    "active_user_confirm": "Are you sure to active this user?"
+    "device_list": "Danh sách thiết bị",
+    "device_add": "Thêm mới thiết bị",
+    "user_list": "Danh sách người dùng",
+    "user_add": "Thêm mới người dùng",
+    "wqi": "Tìm kiếm thông tin WQI",
+    "artile": "Tuyển tập những bài viết hay",
+    "artile_add": "Thêm mới bài viết",
+    "disable_user_confirm": "Bạn có muốn hủy kích hoạt tài khoản này?",
+    "active_user_confirm": "Bạn có chắc chắn muốn kích hoạt tài khoản này?"
   },
 
   "button": {
-    "add": "Add",
-    "save": "Save"
+    "add": "Thêm mới",
+    "save": "Lưu lại"
   },
 
   "message": {
-    "add_new_user": "Adding new user successfully",
-    "add_new_device": "Adding new device successfully",
-    "disable_user": "Disable user successfully",
-    "enable_user": "Enable user successfully",
+    "add_new_user": "Thêm người dùng mới thành công",
+    "add_new_device": "Thêm thiết bị mới thành công",
+    "disable_user": "Hủy kích hoạt người dùng thành công",
+    "enable_user": "Kích hoạt người dùng thành công",
     "error": "Has error, please try again"
   },
 

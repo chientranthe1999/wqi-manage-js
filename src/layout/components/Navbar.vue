@@ -1,11 +1,20 @@
 <template>
-  <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+  <div class="navbar flex items-center justify-between">
+    <div>
+      <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+      <breadcrumb class="breadcrumb-container" />
+    </div>
 
-    <breadcrumb class="breadcrumb-container" />
+    <el-form>
+      <el-form-item>
+        <el-select v-model="device_id" placeholder="Select" class="w-[240px]" @change="changeDevice">
+          <el-option v-for="item in devices" :key="item.id" :label="item.name" :value="item.id" />
+        </el-select>
+      </el-form-item>
+    </el-form>
 
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
+      <el-dropdown v-if="token" class="avatar-container" trigger="click">
         <div class="avatar-wrapper no-select flex align-items-center">
           <el-avatar icon="el-icon-user-solid" class="avt-image" />
           <span>{{ name }}</span>
@@ -24,15 +33,29 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '../../components/layout/Breadcrumb'
 import Hamburger from '../../components/layout/Hamburger'
+import { getDevices } from '@/apis/device'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger
   },
-  computed: {
-    ...mapGetters(['sidebar', 'name', 'avatar'])
+
+  data() {
+    return {
+      devices: [],
+      device_id: ''
+    }
   },
+
+  computed: {
+    ...mapGetters(['sidebar', 'name', 'avatar', 'token'])
+  },
+
+  async created() {
+    await this.getDevices()
+  },
+
   methods: {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
@@ -40,12 +63,33 @@ export default {
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    },
+
+    async getDevices() {
+      try {
+        const res = await getDevices()
+        console.log(res)
+
+        this.devices = res.data.items
+        this.device_id = this.devices[0].id
+        this.$store.commit('user/SET_DEVICE_ID', this.device_id)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+
+    changeDevice(val) {
+      this.$store.commit('user/SET_DEVICE_ID', val)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+::v-deep .el-form-item {
+  margin-bottom: 0;
+}
+
 .navbar {
   height: 50px;
   overflow: hidden;

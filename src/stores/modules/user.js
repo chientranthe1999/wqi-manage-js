@@ -5,7 +5,8 @@ import router, { resetRouter } from '@/routers'
 const state = {
   token: getToken(),
   name: null,
-  roles: null
+  roles: null,
+  device_id: null
 }
 
 const mutations = {
@@ -19,6 +20,10 @@ const mutations = {
 
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+
+  SET_DEVICE_ID: (state, device_id) => {
+    state.device_id = device_id
   }
 }
 

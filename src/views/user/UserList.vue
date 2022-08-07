@@ -56,6 +56,12 @@ export default {
         },
 
         {
+          prop: 'device',
+          label: 'Thiết bị',
+          minWidth: '200'
+        },
+
+        {
           prop: 'status',
           label: this.$t('label.status'),
           minWidth: '100'
@@ -80,7 +86,12 @@ export default {
           limit: this.limit
         })
 
-        this.results = res.data.data
+        this.results = res.data.data.map((item) => {
+          return {
+            ...item,
+            device: item?.devices?.name + '-' + item?.devices?.location
+          }
+        })
         this.total = res.data.total
       } catch (e) {
         console.log(e)

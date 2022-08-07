@@ -33,8 +33,8 @@
 
       <!-- wqi -->
       <div class="w-[40%] flex align-items-center">
-        <div class="rounded-[50%] wqi-number" :class="wqiBg(wqi.wqi)">
-          <span> WQI</span>
+        <div class="rounded-[50%] wqi-number" :class="wqiStatus.bgClass">
+          <span> {{ wqiStatus.text }}</span>
           <span>{{ wqi.wqi }}</span>
         </div>
       </div>
@@ -63,7 +63,7 @@
   </div>
 </template>
 <script>
-import { wqiBg } from '@/utils/common'
+import { wqiCaculateStatus } from '@/utils/common'
 export default {
   props: {
     wqi: {
@@ -72,8 +72,22 @@ export default {
       default: () => {}
     }
   },
-  methods: {
-    wqiBg
+
+  data() {
+    return {
+      wqiStatus: {}
+    }
+  },
+
+  watch: {
+    wqi() {
+      console.log('hihi')
+      this.wqiStatus = wqiCaculateStatus(this.wqi.wqi)
+    }
+  },
+
+  mounted() {
+    this.wqiStatus = wqiCaculateStatus(this.wqi.wqi)
   }
 }
 </script>
