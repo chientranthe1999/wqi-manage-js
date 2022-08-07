@@ -143,6 +143,7 @@ export default {
   color: #333;
   background-color: $headerTableColor !important;
   text-align: center;
+  padding: 12px !important;
 }
 
 ::v-deep .cell {

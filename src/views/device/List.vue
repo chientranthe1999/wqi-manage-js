@@ -1,11 +1,6 @@
 <template>
   <div>
-    <v-header
-      :has-button="true"
-      :button-text="$t('button.add')"
-      :title-text="$t('title.device_list')"
-      @buttonClick="$router.push({ name: 'DeviceAdd' })"
-    />
+    <v-header :has-button="$store.getters['role'] === roles.SUPER_ADMIN" :button-text="$t('button.add')" :title-text="$t('title.device_list')" @buttonClick="$router.push({ name: 'DeviceAdd' })" />
     <div class="content-main-container">
       <div class="bg-white">
         <v-table :table-data="results" :columns="cols" :limit="limit" :page="page" :total="total">
@@ -23,7 +18,7 @@
 <script>
 import pagingMixins from '@/mixins/pagination'
 import { getDevices } from '@/apis/device'
-
+import { ROLES } from '@/utils/constants'
 export default {
   name: 'DeviceList',
   mixins: [pagingMixins],
@@ -35,6 +30,7 @@ export default {
       page: 1,
       limit: 20,
       results: [],
+      roles: ROLES,
 
       cols: [
         {

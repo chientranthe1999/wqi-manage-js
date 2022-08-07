@@ -40,12 +40,20 @@
         </el-col>
       </el-row>
 
+      <div class="mb-[24px]">
+        <div class="card-header">Bảng quy đổi giá trị WQI</div>
+        <v-table :table-data="wqiTable" :columns="cols">
+          <template #text="{ row }">
+            <div :class="row.color" class="text-center text-[#000] h-[56px] leading-[56px]">{{ row.text }}</div>
+          </template>
+        </v-table>
+      </div>
+
       <el-row :gutter="24">
         <el-col :xs="24" :sm="24" :md="24" :lg="24">
+          <p class="card-header">Biểu đồ thay đổi WQI theo thời gian</p>
+
           <div class="bg--white box-shadow-bordered p-2">
-            <div class="flex">
-              <p class="title-text">Biểu đồ thay đổi WQI theo thời gian</p>
-            </div>
             <apexchart type="bar" :height="450" :options="chartOptions" :series="series" class="w-full px-[1rem] h-[400px]" />
           </div>
         </el-col>
@@ -79,7 +87,57 @@ export default {
       ],
 
       device: null,
-      loading: false
+      loading: false,
+      cols: [
+        {
+          prop: 'val',
+          label: 'Giá trị WQI',
+          minWidth: '100'
+        },
+        {
+          prop: 'status',
+          label: 'Mức độ đánh giá chất lượng nước',
+          minWidth: '300'
+        },
+        {
+          prop: 'text',
+          label: 'Hành động',
+          minWidth: '100'
+        }
+      ],
+
+      wqiTable: [
+        {
+          val: '91 - 100',
+          status: 'Sử dụng cho mục đích cấp nước sinh hoạt',
+          color: 'wqi--good',
+          text: 'Tốt'
+        },
+        {
+          val: '76 - 90',
+          status: 'Sử dụng cho mục đích cấp nước sinh hoạt nhưng cần biện pháp xử lý phù hợp',
+          color: 'wqi--medium',
+          text: 'Trung bình'
+        },
+        {
+          val: '51 - 75',
+          status: 'Sử dụng cho mục đích tưới tiêu và mục đích tương đương khác',
+          color: 'wqi--mid',
+          text: 'Kém'
+        },
+        {
+          val: '26 - 50',
+          status: 'Sử dụng cho giao thông thủy và các mục đích tương đương khác',
+          color: 'wqi--warning',
+          text: 'Tệ'
+        },
+        {
+          val: '0 - 25',
+          status: 'Nước ô nhiễm nặng, cần các biện pháp xử lý trong tương lai',
+          color: 'wqi--bad',
+          text: 'Ô nhiễm'
+        }
+      ]
     }
   },
 
@@ -98,16 +156,10 @@ export default {
 
   async created() {
     try {
-      this.$bus.$on('getInfor', this.getInfor)
       await this.getInfor()
     } catch (e) {
       console.log(e)
     }
-  },
-
-  destroyed() {
-    // Stop listening the event getInfor with handler
-    this.$bus.$off('getInfor', this.getInfor)
   },
 
   methods: {
@@ -157,7 +209,7 @@ export default {
     },
 
     goToMap(lat, lon) {
-      window.open('http://maps.google.co.jp/maps?q=' + lat + '+' + lon + '&t=m&z=14', '_blank')
+      window.open('http://maps.google.com/maps?q=' + lat + '+' + lon + '&t=m&z=14', '_blank')
     },
 
     _formatNumber(num) {
@@ -166,8 +218,11 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/variables.scss';
+::v-deep .el-table .el-table__cell {
+  padding: 0;
+}
 
 .title-text {
   width: fit-content;

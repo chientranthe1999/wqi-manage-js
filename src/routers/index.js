@@ -35,7 +35,7 @@ const allRoutes = [
         path: 'add',
         name: 'DeviceAdd',
         component: () => import('@/views/device/DeviceAdd'),
-        meta: { title: i18n.t('router.device_add') }
+        meta: { title: i18n.t('router.device_add'), roles: [ROLES.SUPER_ADMIN] }
       }
     ]
   },
