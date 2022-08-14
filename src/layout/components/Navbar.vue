@@ -5,7 +5,7 @@
       <breadcrumb class="breadcrumb-container" />
     </div>
 
-    <el-form>
+    <el-form v-if="$route.name === 'home'">
       <el-form-item>
         <el-select v-model="device_id" placeholder="Select" class="w-[240px]" @change="changeDevice">
           <el-option v-for="item in devices" :key="item.id" :label="item.name" :value="item.id" />
@@ -68,7 +68,6 @@ export default {
     async getDevices() {
       try {
         const res = await getDevices()
-        console.log(res)
 
         this.devices = res.data.items
         this.device_id = this.devices[0].id

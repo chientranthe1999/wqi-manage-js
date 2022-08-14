@@ -81,7 +81,6 @@ export default {
 
   watch: {
     wqi() {
-      console.log('hihi')
       this.wqiStatus = wqiCaculateStatus(this.wqi.wqi)
     }
   },

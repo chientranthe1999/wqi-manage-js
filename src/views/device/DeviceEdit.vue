@@ -30,7 +30,7 @@
             </el-col>
           </el-row>
           <div class="text-right mt-1-em">
-            <el-button class="btn--green btn" icon="el-icon-circle-check" :loading="loading" @click="addDevice">
+            <el-button class="btn--green btn" icon="el-icon-circle-check" :loading="loading" @click="updateDevice">
               {{ $t('button.save') }}
             </el-button>
           </div>
@@ -40,7 +40,7 @@
   </div>
 </template>
 <script>
-import { createDevice } from '@/apis/device'
+import { getDeviceById, updateDevice } from '@/apis/device'
 export default {
   data() {
     return {
@@ -71,14 +71,42 @@ export default {
       }
     }
   },
+
+  computed: {
+    id() {
+      return this.$route.params.id
+    }
+  },
+
+  async created() {
+    await this.getDevice()
+  },
   methods: {
-    async addDevice() {
+    async updateDevice() {
       try {
         this.loading = true
         await this.$refs.form.validate()
-        const res = await createDevice(this.formData)
-        this.$vmess.success(this.$t('message.add_new_device'))
+        const { name, location, lat, lon } = this.formData
+        await updateDevice(this.id, {
+          name,
+          location,
+          lat,
+          lon
+        })
+        this.$vmess.success(this.$t('message.update_success'))
         this.$router.push({ name: 'DeviceList' })
+      } catch (e) {
+        console.log(e)
+      } finally {
+        this.loading = false
+      }
+    },
+
+    async getDevice() {
+      try {
+        this.loading = true
+        const res = await getDeviceById(this.id)
+        this.formData = res.data.item
       } catch (e) {
         console.log(e)
       } finally {

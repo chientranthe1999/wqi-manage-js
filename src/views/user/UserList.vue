@@ -14,7 +14,7 @@
 
           <template #action="{ row }">
             <div class="text-center">
-              <el-button type="primary" icon="el-icon-edit" circle />
+              <el-button type="primary" icon="el-icon-edit" circle @click="$router.push({ name: 'UserEdit', params: { id: row.id } })" />
               <el-button v-if="row.status" type="danger" icon="el-icon-minus" circle @click="disableUser(row.id)" />
               <el-button v-else type="success" icon="el-icon-check" circle @click="activeUser(row.id)" />
             </div>

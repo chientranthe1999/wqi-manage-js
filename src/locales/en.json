@@ -66,6 +66,7 @@
     "add_new_device": "Thêm thiết bị mới thành công",
     "disable_user": "Hủy kích hoạt người dùng thành công",
     "enable_user": "Kích hoạt người dùng thành công",
+    "update_success": "Cập nhật thành công",
     "error": "Has error, please try again"
   },
 

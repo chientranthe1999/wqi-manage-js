@@ -36,6 +36,13 @@ const allRoutes = [
         name: 'DeviceAdd',
         component: () => import('@/views/device/DeviceAdd'),
         meta: { title: i18n.t('router.device_add'), roles: [ROLES.SUPER_ADMIN] }
+      },
+      {
+        path: 'edit/:id',
+        name: 'DeviceEdit',
+        hidden: true,
+        component: () => import('@/views/device/DeviceEdit'),
+        meta: { title: 'Update thiết bị', roles: [ROLES.SUPER_ADMIN] }
       }
     ]
   },
@@ -55,6 +62,12 @@ const allRoutes = [
         name: 'UserAdd',
         component: () => import('@/views/user/UserAdd'),
         meta: { title: i18n.t('router.user_add') }
+      },
+      {
+        path: 'edit/:id',
+        name: 'UserEdit',
+        component: () => import('@/views/user/UserEdit'),
+        meta: { title: 'Chỉnh sửa người dùng' }
       }
     ]
   },

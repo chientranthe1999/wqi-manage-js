@@ -1,27 +1,31 @@
-<template lang="">
-  <div v-loading="loading">
+<template>
+  <div v-loading.fullscreen.lock="loading">
     <v-header :has-button="false" :button-text="$t('button.add')" :title-text="$t('title.wqi')" />
     <div class="content-main-container">
       <main class="box-shadow-bordered bg-white rounded-[5px] p-[1em]">
         <!-- header -->
-        <!-- <el-row class="mb-[1em]">
-          <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+        <el-row class="mb-[1em]">
+          <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10">
             <el-form label-position="left" label-width="120px">
-              <el-form-item :label="$t('router.device')">
-                <el-select class="w-full" />
+              <el-form-item :label="$t('label.device')" prop="device_id">
+                <el-select v-model="deviceId" class="w-full" clearable @change="getInfor">
+                  <el-option v-for="(device, index) in devices" :key="index" :value="device.id" :label="`${device.name} - ${device.location}`" />
+                </el-select>
               </el-form-item>
             </el-form>
           </el-col>
-        </el-row> -->
+        </el-row>
 
         <!-- result table -->
-        <v-table :table-data="results" :columns="cols" :limit="limit" :page="page" :total="total" @onChangePage="onChangePage"/>
+        <v-table :table-data="results" :columns="cols" :limit="limit" :page="page" :total="total" @onChangePage="onChangePage" />
       </main>
     </div>
   </div>
 </template>
 <script>
 import { getInfors } from '@/apis/infor'
+import { getDevices } from '@/apis/device'
+
 import moment from 'moment'
 export default {
   data() {
@@ -31,6 +35,8 @@ export default {
       page: 1,
       limit: 20,
       total: 0,
+      devices: [],
+      deviceId: null,
       cols: [
         {
           prop: 'device',
@@ -92,13 +98,13 @@ export default {
   },
 
   async created() {
-    await this.getInfor()
+    await Promise([this.getInfor(), this.getDevices()])
   },
 
   methods: {
     async getInfor() {
       this.loading = true
-      const res = await getInfors({ limit: this.limit, page: this.page })
+      const res = await getInfors({ limit: this.limit, page: this.page, device_id: this.deviceId })
       this.results = res.data.data.map((item) => {
         return {
           device: item.devices.name,
@@ -121,6 +127,18 @@ export default {
     async onChangePage(page) {
       this.page = page
       await this.getInfor()
+    },
+
+    async getDevices() {
+      try {
+        this.loading = true
+        const res = await getDevices()
+        this.devices = res.data.items
+      } catch (e) {
+        console.log(e)
+      } finally {
+        this.loading = false
+      }
     }
   }
 }

@@ -4,9 +4,9 @@
     <div class="content-main-container">
       <div class="bg-white">
         <v-table :table-data="results" :columns="cols" :limit="limit" :page="page" :total="total">
-          <template slot="action">
+          <template #action="{ row }">
             <div class="text-center">
-              <el-button type="success" icon="el-icon-edit" circle />
+              <el-button type="success" icon="el-icon-edit" circle @click="$router.push({ name: 'DeviceEdit', params: { id: row.id } })" />
               <!-- <el-button type="primary" icon="el-icon-right" circle /> -->
             </div>
           </template>

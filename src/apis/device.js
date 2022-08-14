@@ -11,3 +11,7 @@ export function getDevices(params) {
 export function getDeviceById(id) {
   return request.get('/devices/' + id)
 }
+
+export function updateDevice(id, data) {
+  return request.put('/devices/' + id, data)
+}

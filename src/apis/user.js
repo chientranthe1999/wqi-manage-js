@@ -17,5 +17,9 @@ export function activeUser(id) {
 }
 
 export function updateUser(id, data) {
-  return request.put('/users/update/' + id, data)
+  return request.put('/users/' + id, data)
+}
+
+export function getUserById(id) {
+  return request.get('/users/' + id)
 }
