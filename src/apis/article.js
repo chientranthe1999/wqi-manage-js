@@ -11,3 +11,7 @@ export function getArticles(params) {
 export function getArticleById(id) {
   return request.get('/articles/' + id)
 }
+
+export function deleteArticle(id) {
+  return request.delete('/articles/' + id)
+}

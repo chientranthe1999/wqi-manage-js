@@ -1,6 +1,9 @@
-<template lang="html">
+<template>
   <div v-loading="loading" class="content-main-container">
-    <main class="bg-white rounded-lg p-[1em] py-[2em] max-w-[1140px] mx-auto box-shadow-bordered">
+    <main class="bg-white rounded-lg p-[1em] py-[2em] max-w-[1140px] mx-auto">
+      <div class="text-right">
+        <el-button v-if="hasPermission" type="danger" icon="el-icon-close" @click="deleteArticle">Xóa</el-button>
+      </div>
       <p class="font-bold text-[1.5em] mb-1">{{ news.title }}</p>
       <p class="mb-[1em] italic text-sm">{{ news.users.name }} - {{ news.created }}</p>
       <div>
@@ -11,7 +14,7 @@
   </div>
 </template>
 <script>
-import { getArticleById } from '@/apis/article'
+import { getArticleById, deleteArticle } from '@/apis/article'
 import moment from 'moment'
 export default {
   name: 'NewDetail',
@@ -21,6 +24,12 @@ export default {
         users: {}
       },
       loading: false
+    }
+  },
+
+  computed: {
+    hasPermission() {
+      return this.$store.getters['token']
     }
   },
   async created() {
@@ -39,6 +48,14 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+
+    async deleteArticle() {
+      this.loading = true
+      await deleteArticle(this.$route.params.id)
+      this.$message.success('Xóa bài viết thành công')
+      this.loading = false
+      this.$router.push({ name: 'Article' })
     }
   }
 }
